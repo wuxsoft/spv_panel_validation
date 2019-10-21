@@ -1,4 +1,4 @@
-class PanelValidation
+
   class XmlDigitalSignature
     C14N    = Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0
     NS_MAP  = {
@@ -147,4 +147,3 @@ class PanelValidation
       end
     end
   end
-end

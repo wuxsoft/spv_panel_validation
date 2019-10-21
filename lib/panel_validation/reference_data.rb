@@ -1,4 +1,4 @@
-class PanelValidation
+
   class ReferenceData
     def self.responsible_supplier(manufacturer)
       reference_data
@@ -43,4 +43,3 @@ class PanelValidation
     end
 
   end
-end
