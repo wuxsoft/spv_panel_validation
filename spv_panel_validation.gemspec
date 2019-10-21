@@ -4,8 +4,7 @@ require File.expand_path('../lib/spv_panel_validation/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Hogan Yuan"]
   gem.email         = ["wuxsoft@gmail.com"]
-  gem.description   = %q{WS Security XML signer}require "lib/spv_panel_validation/xml_digital_signature"
-  require "lib/spv_panel_validation/xml_digital_signature"
+  gem.description   = %q{WS Security XML signer}
   
   gem.summary       = gem.description
   gem.homepage      = ""
