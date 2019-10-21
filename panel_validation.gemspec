@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
 
   gem.name          = "panel_validation"
   gem.require_paths = ["lib"]
-  gem.version       = Signer::VERSION
+  gem.version       = PanelValidation::VERSION
 
   gem.required_ruby_version = '>= 2.1.0'
 

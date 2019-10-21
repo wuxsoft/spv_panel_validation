@@ -1,4 +1,4 @@
-module PanelValidation
+class PanelValidation
   class ReferenceData
     def self.responsible_supplier(manufacturer)
       reference_data
