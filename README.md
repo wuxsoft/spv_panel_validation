@@ -5,7 +5,7 @@ WS Security XML Certificate signing for Ruby
 ## Installation
 
 ```bash
-gem install panel_validation
+gem install spv_panel_validation
 ```
 
 ## Usage
@@ -26,7 +26,8 @@ export REFERENCE_DATA_PATH=/Users/hogan/work/osw/ezyform/public/xml/referenceDat
 ```
 
 ```ruby
-require "panel_validation"
+require "spv_panel_validation/reference_data"
+require "spv_panel_validation/xml_digital_signature"
 
 
 ```

@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/panel_validation/version', __FILE__)
+require File.expand_path('../lib/spv_panel_validation/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Hogan Yuan"]
@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.files         = Dir.glob("lib/**/*") + %w(README.md CHANGELOG.md LICENSE)
   gem.executables   = []
 
-  gem.name          = "panel_validation"
+  gem.name          = "spv_panel_validation"
   gem.require_paths = ["lib"]
   gem.version       = SpvPanelValidation::VERSION
 
