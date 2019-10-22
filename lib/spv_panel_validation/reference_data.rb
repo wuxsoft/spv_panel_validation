@@ -1,5 +1,5 @@
 
-class SpvPanelValidation::ReferenceData
+class ReferenceData
   def self.responsible_supplier(manufacturer)
     reference_data
     manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
