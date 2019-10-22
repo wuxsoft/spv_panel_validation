@@ -20,7 +20,7 @@ Example:
 
 export GREENDEAL_CERT_PATH=/Users/hogan/work/osw/ezyform/public/xml/cert.pem
 export GREENDEAL_PRIVATE_KEY_PATH=/Users/hogan/work/osw/ezyform/public/xml/key.pem
-export GREENDEAL_PRIVATE_KEY_PASSWORD=gd@cd
+export GREENDEAL_PRIVATE_KEY_PASSWORD=111111
 export REFERENCE_DATA_PATH=/Users/hogan/work/osw/ezyform/public/xml/referenceData.json
 
 ```
