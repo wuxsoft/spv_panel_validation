@@ -24,8 +24,8 @@ class SpvPanelValidation::XmlDigitalSignature
     signer.signature_digest_algorithm = :sha1 # Set algorithm for message digesting for signing
     signer.signature_algorithm_id = "http://www.w3.org/2000/09/xmldsig#rsa-sha1"
     begin
-      signer.cert = OpenSSL::X509::Certificate.new(File.read(WebConfig.solar_panel_validation.cert_path))
-      signer.private_key = OpenSSL::PKey::RSA.new(File.read(WebConfig.solar_panel_validation.private_key_path), WebConfig.solar_panel_validation.private_key_password.to_s)
+      signer.cert = OpenSSL::X509::Certificate.new(File.read(ENV["GREENDEAL_CERT_PATH"]))
+      signer.private_key = OpenSSL::PKey::RSA.new(File.read(ENV["GREENDEAL_PRIVATE_KEY_PATH"]), ENV["GREENDEAL_PRIVATE_KEY_PASSWORD"])
     rescue Exception => e
       Rails.logger.info("----- XmlDigitalSignature signature load certificate error: #{e.to_s}")
       return ""
