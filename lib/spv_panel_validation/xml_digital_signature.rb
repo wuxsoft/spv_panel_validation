@@ -72,7 +72,7 @@ class XmlDigitalSignature
         Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
         return { code: 1, message: "serialnumber or subject does not exist" }
       end
-      reference_data = ::SpvPanelValidation::ReferenceData.reference_data
+      reference_data = ::ReferenceData.reference_data
       if is_xml_public_key
         if x509certificate.blank?
           Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
