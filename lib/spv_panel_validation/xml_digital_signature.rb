@@ -24,19 +24,22 @@ class XmlDigitalSignature
       Rails.logger.info("----- XmlDigitalSignature signature load certificate error: #{e.to_s}")
       return ""
     end
-    data = self.signature_base(xml, tag_name, id_name, gwtid, cert, private_key, build_file = true)
+    data = self.signature_base(xml, tag_name, id_name, gwtid, cert, private_key, build_file)
     data
   end
 
   def self.signature_by_cert_path(xml, tag_name, id_name, gwtid, cert_path, private_key_path, private_key_password, build_file = true)
     begin
+      puts "cert_path:#{cert_path}"
+      puts "private_key_path:#{private_key_path}"
+      puts "private_key_password:#{private_key_password}"
       cert = OpenSSL::X509::Certificate.new(File.read(cert_path))
       private_key = OpenSSL::PKey::RSA.new(File.read(private_key_path), private_key_password)
     rescue Exception => e
       Rails.logger.info("----- XmlDigitalSignature signature load certificate error: #{e.to_s}")
       return ""
     end
-    data = self.signature_base(xml, tag_name, id_name, gwtid, cert, private_key, build_file = true)
+    data = self.signature_base(xml, tag_name, id_name, gwtid, cert, private_key, build_file)
     data
   end
 
