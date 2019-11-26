@@ -30,9 +30,9 @@ class XmlDigitalSignature
 
   def self.signature_by_cert_path(xml, tag_name, id_name, gwtid, cert_path, private_key_path, private_key_password, build_file = true)
     begin
-      puts "cert_path:#{cert_path}"
-      puts "private_key_path:#{private_key_path}"
-      puts "private_key_password:#{private_key_password}"
+      # puts "cert_path:#{cert_path}"
+      # puts "private_key_path:#{private_key_path}"
+      # puts "private_key_password:#{private_key_password}"
       cert = OpenSSL::X509::Certificate.new(File.read(cert_path))
       private_key = OpenSSL::PKey::RSA.new(File.read(private_key_path), private_key_password)
     rescue Exception => e
