@@ -9,6 +9,16 @@ class ReferenceData
       ""
     end
   end
+  
+  def self.responsible_suppliers(manufacturer)
+    reference_data
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    if manufacturer_item.present?
+      manufacturer_item["suppliers"]
+    else
+      []
+    end
+  end
 
   def self.reference_data
     begin

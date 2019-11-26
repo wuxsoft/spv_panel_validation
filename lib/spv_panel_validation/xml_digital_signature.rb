@@ -17,6 +17,30 @@ class XmlDigitalSignature
     512  => OpenSSL::Digest::SHA512
   }
   def self.signature(xml, tag_name, id_name, gwtid, build_file = true)
+    begin
+      cert = OpenSSL::X509::Certificate.new(File.read(ENV["GREENDEAL_CERT_PATH"]))
+      private_key = OpenSSL::PKey::RSA.new(File.read(ENV["GREENDEAL_PRIVATE_KEY_PATH"]), ENV["GREENDEAL_PRIVATE_KEY_PASSWORD"])
+    rescue Exception => e
+      Rails.logger.info("----- XmlDigitalSignature signature load certificate error: #{e.to_s}")
+      return ""
+    end
+    data = self.signature_base(xml, tag_name, id_name, gwtid, cert, private_key, build_file = true)
+    data
+  end
+
+  def self.signature_by_cert_path(xml, tag_name, id_name, gwtid, cert_path, private_key_path, private_key_password, build_file = true)
+    begin
+      cert = OpenSSL::X509::Certificate.new(File.read(cert_path))
+      private_key = OpenSSL::PKey::RSA.new(File.read(private_key_path), private_key_password)
+    rescue Exception => e
+      Rails.logger.info("----- XmlDigitalSignature signature load certificate error: #{e.to_s}")
+      return ""
+    end
+    data = self.signature_base(xml, tag_name, id_name, gwtid, cert, private_key, build_file = true)
+    data
+  end
+
+  def self.signature_base(xml, tag_name, id_name, gwtid, cert, private_key, build_file = true)
     signer = Signer.new(xml, canonicalize_algorithm: :c14n_1_0)
     # signer = Signer.new(xml)
     signer.security_node = signer.document.root
@@ -24,8 +48,8 @@ class XmlDigitalSignature
     signer.signature_digest_algorithm = :sha1 # Set algorithm for message digesting for signing
     signer.signature_algorithm_id = "http://www.w3.org/2000/09/xmldsig#rsa-sha1"
     begin
-      signer.cert = OpenSSL::X509::Certificate.new(File.read(ENV["GREENDEAL_CERT_PATH"]))
-      signer.private_key = OpenSSL::PKey::RSA.new(File.read(ENV["GREENDEAL_PRIVATE_KEY_PATH"]), ENV["GREENDEAL_PRIVATE_KEY_PASSWORD"])
+      signer.cert = cert
+      signer.private_key = private_key
     rescue Exception => e
       Rails.logger.info("----- XmlDigitalSignature signature load certificate error: #{e.to_s}")
       return ""
