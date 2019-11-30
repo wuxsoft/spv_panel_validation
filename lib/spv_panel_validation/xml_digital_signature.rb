@@ -163,7 +163,6 @@ class XmlDigitalSignature
 
     # Finally, verify that the signature is correct
     verify = certificate.public_key.verify(signature_method.new, decoded_signature_value, canoned)
-    return { code: 0, message: nil }
     if verify
       Rails.logger.info("XmlDigitalSignature-verify:Document signature is correct\n")
       return { code: 0, message: nil }
