@@ -107,7 +107,8 @@ class XmlDigitalSignature
         end
         certificate = OpenSSL::X509::Certificate.new(Base64.decode64(x509certificate&.content))
       else
-        public_key = reference_data["publickeys"].select { |item| item["subject"] == subject&.content && item["serialnumber"] == serialnumber&.content }&.first
+        # public_key = reference_data["publickeys"].select { |item| item["subject"] == subject&.content && item["serialnumber"] == serialnumber&.content }&.first
+        public_key = reference_data["publickeys"].select { |item| item["serialnumber"] == serialnumber&.content }&.first
         if public_key.blank?
           Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
           return { code: 1, message: "public key does not exist" }
