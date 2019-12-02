@@ -95,15 +95,15 @@ class XmlDigitalSignature
       serialnumber = original.xpath("#{prefix}/ds:Signature/ds:KeyInfo/ds:X509Data/ds:X509IssuerSerial/ds:X509SerialNumber", NS_MAP)&.first
 
       x509certificate = original.xpath("#{prefix}/ds:Signature/ds:KeyInfo/ds:X509Data/ds:X509Certificate", NS_MAP)&.first
-      if subject.blank? || serialnumber.blank?
+      if serialnumber.blank?
         Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
-        return { code: 1, message: "serialnumber or subject does not exist" }
+        return { code: 1, message: "serialnumber does not exist", result_code: 104}
       end
       reference_data = ::ReferenceData.reference_data
       if is_xml_public_key
         if x509certificate.blank?
           Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
-          return { code: 1, message: "certificate does not exist" }
+          return { code: 1, message: "certificate does not exist", result_code: 104 }
         end
         certificate = OpenSSL::X509::Certificate.new(Base64.decode64(x509certificate&.content))
       else
@@ -111,13 +111,13 @@ class XmlDigitalSignature
         public_key = reference_data["publickeys"].select { |item| item["serialnumber"] == serialnumber&.content }&.first
         if public_key.blank?
           Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
-          return { code: 1, message: "public key does not exist" }
+          return { code: 1, message: "public key does not exist", result_code: 104 }
         end
         certificate = OpenSSL::X509::Certificate.new(public_key["publickey"])
       end
     rescue Exception => e
       Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
-      return { code: 1, message: "load certificate error" }
+      return { code: 1, message: "load certificate error", result_code: 104 }
     end
     # Read, then clear,  the signature
     signature = document.xpath("#{prefix}/ds:Signature", NS_MAP)&.first
@@ -145,7 +145,7 @@ class XmlDigitalSignature
         # return { code: 0, message: nil}
       else
         Rails.logger.info("XmlDigitalSignature-verify:Digest check mismatch for #{reference_id}\n")
-        # return { code: 100, message: "Invalid Signature" }
+        return { code: 100, message: "Invalid Signature", result_code: 100 }
       end
     end
     # Canonicalization: Stringify the node in a nice way
@@ -169,7 +169,7 @@ class XmlDigitalSignature
       return { code: 0, message: nil }
     else
       Rails.logger.info("XmlDigitalSignature-verify:Document signature is incorrect\n")
-      return { code: 100, message: "Invalid Signature" }
+      return { code: 100, message: "Invalid Signature", result_code: 100 }
     end
   end
 end
