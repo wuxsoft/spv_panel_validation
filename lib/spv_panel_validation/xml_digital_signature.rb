@@ -1,5 +1,6 @@
 class XmlDigitalSignature
-  C14N    = Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0
+  # C14N    = Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0
+  C14N    = Nokogiri::XML::XML_C14N_1_0
   NS_MAP  = {
     "c14n"  => "http://www.w3.org/2001/10/xml-exc-c14n#",
     "c14n_1_0" => "http://www.w3.org/TR/2001/REC-xml-c14n-20010315",
