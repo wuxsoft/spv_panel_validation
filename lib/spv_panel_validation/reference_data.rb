@@ -9,6 +9,21 @@ class ReferenceData
       ""
     end
   end
+
+  def self.responsible_supplier_by_name(manufacturer, responsible_supplier_name)
+    reference_data
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    if manufacturer_item.present?
+      supplier = manufacturer_item["suppliers"].select { |item| item["name"]&.downcase == responsible_supplier_name.downcase }&.first
+      if supplier.present?
+        supplier["name"]
+      else
+        ""
+      end
+    else
+      ""
+    end
+  end
   
   def self.responsible_suppliers(manufacturer)
     reference_data
@@ -35,6 +50,22 @@ class ReferenceData
     manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
     if manufacturer_item.present?
       endpointid = manufacturer_item["suppliers"]&.first["endpointid"]
+      endpoint_item = @reference_data["endpoints"].select { |item| item["id"] == endpointid}&.first
+      if endpoint_item.present?
+        endpoint_item[type]
+      else
+        ""
+      end
+    else
+      ""
+    end
+  end
+
+  def self.api_url_by_name(manufacturer, type, responsible_supplier_name)
+    reference_data
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    if manufacturer_item.present?
+      endpointid = manufacturer_item["suppliers"].select { |item| item["name"]&.downcase == responsible_supplier_name.downcase }&.first["endpointid"]
       endpoint_item = @reference_data["endpoints"].select { |item| item["id"] == endpointid}&.first
       if endpoint_item.present?
         endpoint_item[type]
