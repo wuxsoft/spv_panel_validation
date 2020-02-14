@@ -2,7 +2,7 @@
 class ReferenceData
   def self.responsible_supplier(manufacturer)
     reference_data
-    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"]&.downcase == manufacturer.downcase}&.first if @reference_data.present?
     if manufacturer_item.present?
       manufacturer_item["suppliers"]&.first["name"]
     else
@@ -12,7 +12,7 @@ class ReferenceData
 
   def self.responsible_supplier_by_name(manufacturer, responsible_supplier_name)
     reference_data
-    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"]&.downcase == manufacturer.downcase}&.first if @reference_data.present?
     if manufacturer_item.present?
       supplier = manufacturer_item["suppliers"].select { |item| item["name"]&.downcase == responsible_supplier_name.downcase }&.first
       if supplier.present?
@@ -27,7 +27,7 @@ class ReferenceData
   
   def self.responsible_suppliers(manufacturer)
     reference_data
-    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"]&.downcase == manufacturer.downcase}&.first if @reference_data.present?
     if manufacturer_item.present?
       manufacturer_item["suppliers"]
     else
@@ -47,7 +47,7 @@ class ReferenceData
 
   def self.api_url(manufacturer, type)
     reference_data
-    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"]&.downcase == manufacturer.downcase}&.first if @reference_data.present?
     if manufacturer_item.present?
       endpointid = manufacturer_item["suppliers"]&.first["endpointid"]
       endpoint_item = @reference_data["endpoints"].select { |item| item["id"] == endpointid}&.first
@@ -63,7 +63,7 @@ class ReferenceData
 
   def self.api_url_by_name(manufacturer, type, responsible_supplier_name)
     reference_data
-    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer}&.first if @reference_data.present?
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"]&.downcase == manufacturer.downcase}&.first if @reference_data.present?
     if manufacturer_item.present?
       endpointid = manufacturer_item["suppliers"].select { |item| item["name"]&.downcase == responsible_supplier_name.downcase }&.first["endpointid"]
       endpoint_item = @reference_data["endpoints"].select { |item| item["id"] == endpointid}&.first
@@ -79,7 +79,7 @@ class ReferenceData
 
   def self.extend_manufacturer(manufacturer)
     reference_data
-    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"] == manufacturer }&.first if @reference_data.present?
+    manufacturer_item = @reference_data["manufacturers"].select { |item| item["name"]&.downcase == manufacturer.downcase }&.first if @reference_data.present?
     manufacturer_item.present?
   end
 
