@@ -48,12 +48,12 @@ class XmlDigitalSignature
     signer = Signer.new(xml, canonicalize_algorithm: :c14n_1_0)
     # signer = Signer.new(xml)
     signer.security_node = signer.document.root
-    # signer.digest_algorithm = :sha1 # Set algorithm for node digesting
-    # signer.signature_digest_algorithm = :sha1 # Set algorithm for message digesting for signing
-    # signer.signature_algorithm_id = "http://www.w3.org/2000/09/xmldsig#rsa-sha1"
-    signer.digest_algorithm = :sha256 # Set algorithm for node digesting
-    signer.signature_digest_algorithm = :sha256 # Set algorithm for message digesting for signing
-    signer.signature_algorithm_id = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+    signer.digest_algorithm = :sha1 # Set algorithm for node digesting
+    signer.signature_digest_algorithm = :sha1 # Set algorithm for message digesting for signing
+    signer.signature_algorithm_id = "http://www.w3.org/2000/09/xmldsig#rsa-sha1"
+    # signer.digest_algorithm = :sha256 # Set algorithm for node digesting
+    # signer.signature_digest_algorithm = :sha256 # Set algorithm for message digesting for signing
+    # signer.signature_algorithm_id = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
     begin
       signer.cert = cert
       signer.private_key = private_key
@@ -113,6 +113,7 @@ class XmlDigitalSignature
       else
         # public_key = reference_data["publickeys"].select { |item| item["subject"] == subject&.content && item["serialnumber"] == serialnumber&.content }&.first
         public_key = reference_data["publickeys"].select { |item| item["serialnumber"] == serialnumber&.content }&.first
+        public_key = reference_data["vsppublickeys"].select { |item| item["serialnumber"] == serialnumber&.content }&.first if reference_data["vsppublickeys"].present? && public_key.blank?
         if public_key.blank?
           Rails.logger.info("XmlDigitalSignature-verify-:public_key does not exist,signature_xml:#{signature_xml}\n")
           return { code: 1, message: "public key does not exist", result_code: 104 }
